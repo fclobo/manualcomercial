@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800;900&family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: #eef2f8; }
+  ::selection { background: rgba(200,16,46,.18); }
+  [data-sb]::-webkit-scrollbar { width: 8px; }
+  [data-sb]::-webkit-scrollbar-thumb { background: #cdd6e6; border-radius: 8px; }
+  @keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+  @keyframes fadein { from { opacity: 0; } to { opacity: 1; } }
+</style>
+</helmet>
+
+<div style="font-family:'Mulish',system-ui,sans-serif;color:#1f2b3e;background:#eef2f8;min-height:100vh;">
+
+  <div style="position:fixed;top:0;left:0;right:0;height:3px;z-index:60;background:rgba(15,43,87,.08);">
+    <div style="{{ progressStyle }};height:100%;background:linear-gradient(90deg,#163a72,#c8102e);transition:width .12s linear;"></div>
+  </div>
+
+  <header style="position:fixed;top:3px;left:0;right:0;height:60px;z-index:50;background:#ffffff;border-bottom:1px solid #e3e9f2;display:flex;align-items:center;gap:14px;padding:0 20px;box-shadow:0 1px 0 rgba(15,43,87,.02);">
+    <button onClick="{{ toggleNav }}" style="{{ menuBtnStyle }};border:none;background:#f2f5fa;width:40px;height:40px;border-radius:10px;cursor:pointer;align-items:center;justify-content:center;color:#163a72;font-size:20px;" aria-label="Menu">≡</button>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div style="background:#ffffff;border:1px solid #e6ebf3;border-radius:9px;padding:4px 8px;display:flex;align-items:center;box-shadow:0 1px 2px rgba(15,43,87,.05);">
+        <img src="uploads/logo_mark.png" alt="SSG" style="height:30px;display:block;" />
+      </div>
+      <div style="line-height:1.15;">
+        <div style="font-family:'Barlow';font-weight:800;font-size:14.5px;color:#163a72;letter-spacing:.2px;">Manual do Setor Comercial</div>
+        <div style="font-size:11px;color:#7787a0;font-weight:600;letter-spacing:.3px;">Credenciamento &amp; Reajustes · SSG</div>
+      </div>
+    </div>
+    <div style="flex:1;"></div>
+    <div style="{{ activePillStyle }};font-family:'Barlow';font-weight:700;font-size:12.5px;color:#163a72;background:#eff3f9;border:1px solid #e3e9f2;padding:6px 12px;border-radius:999px;max-width:360px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ activeLabel }}</div>
+  </header>
+
+  <sc-if value="{{ showBackdrop }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeNav }}" style="position:fixed;inset:0;background:rgba(12,25,48,.45);z-index:39;animation:fadein .2s ease;"></div>
+  </sc-if>
+
+  <aside data-sb="1" style="{{ sidebarStyle }}">
+    <div style="font-family:'Barlow';font-weight:800;font-size:11px;letter-spacing:1.4px;color:#9aa7bd;text-transform:uppercase;padding:6px 12px 10px;">Índice · 30 seções</div>
+    <nav style="display:flex;flex-direction:column;gap:1px;">
+      <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="24">
+        <button onClick="{{ item.onClick }}" style="{{ item.itemStyle }}">
+          <span style="{{ item.numStyle }}">{{ item.num }}</span>
+          <span style="{{ item.textStyle }}">{{ item.title }}</span>
+        </button>
+      </sc-for>
+    </nav>
+    <div style="padding:16px 12px 8px;margin-top:10px;border-top:1px solid #eef1f6;">
+      <div style="font-size:11.5px;color:#9aa7bd;font-weight:600;line-height:1.5;">Diretrizes e procedimentos do setor Comercial · uso interno SSG.</div>
+    </div>
+  </aside>
+
+  <main style="{{ mainStyle }}">
+
+    <section style="position:relative;overflow:hidden;background:radial-gradient(1100px 500px at 78% -10%,#1f4d8b 0%,#163a72 42%,#0f2b57 100%);color:#fff;padding:96px 28px 84px;">
+      <div style="position:absolute;top:-120px;left:-80px;width:340px;height:340px;border:1px solid rgba(255,255,255,.09);border-radius:50%;"></div>
+      <div style="position:absolute;bottom:-160px;left:20%;width:420px;height:420px;border:1px solid rgba(255,255,255,.06);border-radius:50%;"></div>
+      <div style="position:relative;max-width:1080px;margin:0 auto;display:flex;gap:56px;align-items:center;flex-wrap:wrap;">
+        <div style="flex:1 1 420px;min-width:300px;">
+          <div style="display:inline-flex;align-items:center;gap:9px;font-family:'Barlow';font-weight:700;font-size:12px;letter-spacing:2.2px;color:#ff9aa8;text-transform:uppercase;margin-bottom:20px;">
+            <span style="width:26px;height:2px;background:#c8102e;display:inline-block;"></span>SSG · Serviço à Saúde Global
+          </div>
+          <h1 style="font-family:'Barlow';font-weight:900;font-size:clamp(38px,5.5vw,68px);line-height:.98;letter-spacing:-1px;margin:0 0 22px;">Manual do<br>Setor Comercial</h1>
+          <p style="font-size:18px;line-height:1.6;color:#cdd9ec;max-width:470px;margin:0 0 30px;">Diretrizes e procedimentos em serviços de saúde. Credenciamento, negociação, sistemas e reajustes — <strong style="color:#fff;">passo a passo.</strong></p>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:30px;">
+            <span style="font-family:'Barlow';font-weight:700;font-size:13px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);padding:8px 15px;border-radius:999px;">30 seções</span>
+            <span style="font-family:'Barlow';font-weight:700;font-size:13px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);padding:8px 15px;border-radius:999px;">Passo a passo ilustrado</span>
+            <span style="font-family:'Barlow';font-weight:700;font-size:13px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);padding:8px 15px;border-radius:999px;">Modelos &amp; checklists</span>
+          </div>
+          <button onClick="{{ startReading }}" style="font-family:'Barlow';font-weight:800;font-size:15px;letter-spacing:.3px;color:#fff;background:#c8102e;border:none;padding:15px 28px;border-radius:12px;cursor:pointer;box-shadow:0 12px 30px rgba(200,16,46,.35);display:inline-flex;align-items:center;gap:10px;" style-hover="background:#e11534;transform:translateY(-1px);">Começar a ler <span style="font-size:17px;">→</span></button>
+        </div>
+        <div style="flex:0 1 340px;min-width:240px;display:flex;justify-content:center;">
+          <img src="uploads/manual2-cover.jpg" alt="Capa do Manual do Setor Comercial SSG" style="width:100%;max-width:340px;border-radius:14px;box-shadow:0 40px 80px rgba(5,18,40,.55),0 0 0 1px rgba(255,255,255,.08);display:block;" />
+        </div>
+      </div>
+    </section>
+
+    <sc-if value="{{ hasData }}" hint-placeholder-val="{{ true }}">
+    <div style="max-width:880px;margin:0 auto;padding:8px 28px 120px;">
+
+      <section id="sumario" data-screen-label="Sumário" style="scroll-margin-top:82px;padding:52px 0 8px;">
+        <div style="display:flex;align-items:center;gap:16px;margin-bottom:8px;">
+          <div style="font-family:'Barlow';font-weight:900;font-size:15px;letter-spacing:.5px;color:#fff;background:#163a72;min-width:46px;height:34px;padding:0 12px;border-radius:9px;display:flex;align-items:center;justify-content:center;">SUM</div>
+          <div style="height:1px;flex:1;background:linear-gradient(90deg,#e3e9f2,transparent);"></div>
+        </div>
+        <h2 style="font-family:'Barlow';font-weight:800;font-size:clamp(26px,4vw,38px);line-height:1.08;letter-spacing:-.5px;color:#0f2b57;margin:0 0 26px;">Sumário</h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;">
+          <sc-for list="{{ toc }}" as="t" hint-placeholder-count="12">
+            <button onClick="{{ t.onClick }}" style="text-align:left;background:#fff;border:1px solid #e6ebf3;border-radius:13px;padding:14px 15px;cursor:pointer;display:flex;align-items:center;gap:12px;transition:all .16s ease;" style-hover="border-color:#163a72;box-shadow:0 8px 22px rgba(15,43,87,.1);transform:translateY(-2px);">
+              <span style="{{ t.numStyle }}">{{ t.num }}</span>
+              <span style="flex:1;min-width:0;"><span style="display:block;font-family:'Barlow';font-weight:700;font-size:13.5px;color:#1f2b3e;line-height:1.22;">{{ t.title }}</span><span style="{{ t.catStyle }}">{{ t.cat }}</span></span>
+            </button>
+          </sc-for>
+        </div>
+      </section>
+
+      <sc-for list="{{ sections }}" as="sec" hint-placeholder-count="6">
+        <section id="{{ sec.id }}" data-screen-label="{{ sec.label }}" data-reveal="1" style="scroll-margin-top:82px;padding:54px 0 8px;">
+          <div style="display:flex;align-items:center;gap:16px;margin-bottom:10px;">
+            <div style="{{ sec.badgeStyle }}">{{ sec.badge }}</div>
+            <div style="{{ sec.catStyle }}">{{ sec.cat }}</div>
+            <div style="height:1px;flex:1;background:linear-gradient(90deg,#e3e9f2,transparent);"></div>
+          </div>
+          <h2 style="font-family:'Barlow';font-weight:800;font-size:clamp(25px,3.6vw,36px);line-height:1.1;letter-spacing:-.5px;color:#0f2b57;margin:0 0 24px;">{{ sec.title }}</h2>
+
+          <sc-for list="{{ sec.blocks }}" as="b" hint-placeholder-count="4">
+
+            <sc-if value="{{ b.isLead }}" hint-placeholder-val="{{ false }}">
+              <p style="font-size:18.5px;line-height:1.68;color:#33425c;margin:0 0 18px;font-weight:500;">{{ b.text }}</p>
+            </sc-if>
+            <sc-if value="{{ b.isP }}" hint-placeholder-val="{{ false }}">
+              <p style="font-size:16.5px;line-height:1.72;color:#39465e;margin:0 0 14px;">{{ b.text }}</p>
+            </sc-if>
+            <sc-if value="{{ b.isH3 }}" hint-placeholder-val="{{ false }}">
+              <h3 style="font-family:'Barlow';font-weight:800;font-size:20px;color:#163a72;margin:30px 0 12px;display:flex;align-items:center;gap:11px;line-height:1.2;">
+                <span style="width:5px;height:20px;background:#c8102e;border-radius:3px;display:inline-block;flex:none;"></span>{{ b.text }}
+              </h3>
+            </sc-if>
+
+            <sc-if value="{{ b.isStep }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;align-items:flex-start;gap:14px;margin:14px 0 12px;">
+                <div style="{{ b.stepNumStyle }}">{{ b.num }}</div>
+                <div style="flex:1;padding-top:5px;">
+                  <div style="font-family:'Barlow';font-weight:700;font-size:12px;letter-spacing:1px;color:#9aa7bd;text-transform:uppercase;margin-bottom:2px;">Passo {{ b.num }}</div>
+                  <div style="font-size:16.5px;line-height:1.55;color:#26364f;font-weight:600;">{{ b.text }}</div>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ b.isList }}" hint-placeholder-val="{{ false }}">
+              <ul style="list-style:none;margin:6px 0 18px;padding:0;display:flex;flex-direction:column;gap:9px;">
+                <sc-for list="{{ b.items }}" as="it" hint-placeholder-count="4">
+                  <li style="display:flex;align-items:flex-start;gap:12px;font-size:16px;line-height:1.6;color:#39465e;">
+                    <span style="{{ b.markStyle }}">{{ b.mark }}</span>
+                    <span>{{ it.text }}</span>
+                  </li>
+                </sc-for>
+              </ul>
+            </sc-if>
+
+            <sc-if value="{{ b.isChecklist }}" hint-placeholder-val="{{ false }}">
+              <div style="background:#fff;border:1px solid #e6ebf3;border-radius:16px;padding:18px 20px;margin:10px 0 20px;box-shadow:0 6px 20px rgba(15,43,87,.05);">
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;">
+                  <div style="font-family:'Barlow';font-weight:800;font-size:12px;letter-spacing:1.2px;color:#9aa7bd;text-transform:uppercase;">Check-list</div>
+                  <div style="font-family:'Barlow';font-weight:800;font-size:12.5px;color:#163a72;background:#eff3f9;padding:4px 11px;border-radius:999px;">{{ b.progressLabel }}</div>
+                </div>
+                <div style="height:5px;background:#eef1f6;border-radius:99px;overflow:hidden;margin-bottom:15px;">
+                  <div style="{{ b.barStyle }};height:100%;background:linear-gradient(90deg,#163a72,#3aa06a);border-radius:99px;transition:width .25s ease;"></div>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:3px;">
+                  <sc-for list="{{ b.items }}" as="it" hint-placeholder-count="5">
+                    <button onClick="{{ it.onToggle }}" style="display:flex;align-items:flex-start;gap:12px;background:transparent;border:none;padding:8px 6px;border-radius:9px;cursor:pointer;text-align:left;transition:background .14s ease;" style-hover="background:#f5f8fc;">
+                      <span style="{{ it.boxStyle }}">{{ it.check }}</span>
+                      <span style="{{ it.textStyle }}">{{ it.text }}</span>
+                    </button>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ b.isCallout }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;gap:13px;background:#fff5f3;border:1px solid #f6d5cd;border-left:4px solid #c8102e;border-radius:12px;padding:14px 16px;margin:12px 0 20px;">
+                <span style="font-size:19px;line-height:1.3;flex:none;">⚠️</span>
+                <p style="margin:0;font-size:15.5px;line-height:1.6;color:#7a2418;font-weight:600;">{{ b.text }}</p>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ b.isNote }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;gap:12px;background:#f0f6ff;border:1px solid #d3e3f7;border-left:4px solid #2e5e92;border-radius:12px;padding:13px 16px;margin:10px 0 18px;">
+                <span style="font-size:16px;flex:none;">💡</span>
+                <p style="margin:0;font-size:15.5px;line-height:1.6;color:#284a6e;">{{ b.text }}</p>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ b.isEmail }}" hint-placeholder-val="{{ false }}">
+              <div style="max-width:560px;margin:14px 0 24px;border-radius:16px;overflow:hidden;box-shadow:0 14px 38px rgba(15,43,87,.14);border:1px solid #dce3ef;background:#fff;">
+                <div style="background:linear-gradient(180deg,#1c4680,#163a72);color:#fff;padding:12px 16px;display:flex;align-items:center;gap:11px;">
+                  <div style="width:34px;height:34px;border-radius:9px;background:rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;font-size:16px;flex:none;">✉️</div>
+                  <div style="line-height:1.25;flex:1;min-width:0;">
+                    <div style="font-family:'Barlow';font-weight:700;font-size:13.5px;">Modelo de mensagem</div>
+                    <div style="font-size:11.5px;color:#9fbce0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ b.subjectLabel }}</div>
+                  </div>
+                </div>
+                <div style="padding:16px 18px;">
+                  <sc-for list="{{ b.bodyLines }}" as="ln" hint-placeholder-count="5">
+                    <p style="{{ ln.style }}">{{ ln.text }}</p>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ b.isImages }}" hint-placeholder-val="{{ false }}">
+              <div style="{{ b.galleryStyle }}">
+                <sc-for list="{{ b.imgs }}" as="im" hint-placeholder-count="1">
+                  <button onClick="{{ im.onClick }}" style="padding:0;border:1px solid #dbe3ef;background:#fff;border-radius:12px;overflow:hidden;cursor:zoom-in;box-shadow:0 8px 24px rgba(15,43,87,.1);transition:transform .16s ease;display:block;width:100%;" style-hover="transform:translateY(-3px);box-shadow:0 14px 32px rgba(15,43,87,.16);">
+                    <img src="{{ im.src }}" alt="Captura de tela do procedimento" loading="lazy" style="display:block;width:100%;height:auto;" />
+                  </button>
+                </sc-for>
+              </div>
+            </sc-if>
+
+          </sc-for>
+        </section>
+      </sc-for>
+
+      <div style="margin-top:70px;padding-top:30px;border-top:1px solid #e3e9f2;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <img src="uploads/logo_mark.png" alt="SSG" style="height:34px;" />
+          <div style="font-size:13px;color:#8493ab;line-height:1.4;">Manual do Setor Comercial — Credenciamento &amp; Reajustes<br>Serviço à Saúde Global · uso interno.</div>
+        </div>
+        <button onClick="{{ startReading }}" style="font-family:'Barlow';font-weight:700;font-size:13px;color:#163a72;background:#eff3f9;border:1px solid #e3e9f2;padding:10px 18px;border-radius:10px;cursor:pointer;" style-hover="background:#e3eaf5;">↑ Voltar ao início</button>
+      </div>
+    </div>
+    </sc-if>
+
+  </main>
+
+  <sc-if value="{{ lightboxOn }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeLightbox }}" style="position:fixed;inset:0;z-index:80;background:rgba(9,18,36,.9);display:flex;align-items:center;justify-content:center;padding:28px;cursor:zoom-out;animation:fadein .18s ease;">
+      <img src="{{ lightboxSrc }}" alt="Captura ampliada" style="max-width:96%;max-height:92%;border-radius:8px;box-shadow:0 30px 80px rgba(0,0,0,.6);background:#fff;" />
+      <button onClick="{{ closeLightbox }}" style="position:absolute;top:22px;right:26px;width:44px;height:44px;border-radius:50%;border:none;background:rgba(255,255,255,.14);color:#fff;font-size:22px;cursor:pointer;">✕</button>
+    </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1200,&quot;height&quot;:860}}">
+class Component extends DCLogic {
+  state = { sections: null, active: 'sumario', activeLabel: 'Sumário', checks: {}, lightbox: null, navOpen: false, isMobile: false, progress: 0 };
+
+  CATS = {
+    'Política':      { c:'163A72', t:'EAF1FB' },
+    'Negociação':    { c:'C8102E', t:'FDECEC' },
+    'Credenciamento':{ c:'163A72', t:'EAF1FB' },
+    'Contrato':      { c:'2E5E92', t:'E9F1F9' },
+    'Sistema':       { c:'475569', t:'EEF2F7' },
+    'Marketing':     { c:'C8102E', t:'FDECEC' },
+    'Laboratório':   { c:'2E7D67', t:'E7F3EF' },
+    'Reajuste':      { c:'B23A48', t:'FBECEE' },
+    'Operação':      { c:'163A72', t:'EAF1FB' },
+    'Anexos':        { c:'475569', t:'EEF2F7' }
+  };
+  catColor(cat){ return this.CATS[cat] || { c:'163A72', t:'EAF1FB' }; }
+
+  async componentDidMount() {
+    let raw;
+    try { raw = (await import('./manual2-content.js')).default; }
+    catch (e) { console.error('content load failed', e); return; }
+    let checks = {};
+    try { checks = JSON.parse(localStorage.getItem('ssg-manual2-checks') || '{}'); } catch (e) {}
+    this.setState({ sections: raw, checks });
+    this._onScroll = () => this.handleScroll();
+    this._onResize = () => { const m = window.innerWidth < 1000; if (m !== this.state.isMobile) this.setState({ isMobile: m }); };
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+    window.addEventListener('resize', this._onResize);
+    this._onResize();
+    setTimeout(() => this.setupReveal(), 60);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this._onScroll);
+    window.removeEventListener('resize', this._onResize);
+  }
+
+  toggleCheck(key) {
+    this.setState(s => {
+      const checks = { ...s.checks, [key]: !s.checks[key] };
+      try { localStorage.setItem('ssg-manual2-checks', JSON.stringify(checks)); } catch (e) {}
+      return { checks };
+    });
+  }
+  openImg(src) { this.setState({ lightbox: src }); }
+  closeLightbox() { this.setState({ lightbox: null }); }
+  toggleNav() { this.setState(s => ({ navOpen: !s.navOpen })); }
+  closeNav() { this.setState({ navOpen: false }); }
+
+  goTo(id) {
+    const el = document.getElementById(id);
+    if (el) {
+      const sc = document.scrollingElement || document.documentElement;
+      const top = el.getBoundingClientRect().top + sc.scrollTop - 76;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+    this.setState({ navOpen: false });
+  }
+
+  handleScroll() {
+    const sc = document.scrollingElement || document.documentElement;
+    const max = sc.scrollHeight - sc.clientHeight;
+    const p = max > 0 ? Math.min(100, (sc.scrollTop / max) * 100) : 0;
+    let active = this.state.active, label = this.state.activeLabel;
+    const y = sc.scrollTop + 130;
+    const sumEl = document.getElementById('sumario');
+    if (sumEl && sumEl.offsetTop <= y) { active = 'sumario'; label = 'Sumário'; }
+    for (const s of (this.state.sections || [])) { const el = document.getElementById(s.id); if (el && el.offsetTop <= y) { active = s.id; label = s.n + '. ' + s.title; } }
+    if (Math.abs(p - this.state.progress) > 0.3 || active !== this.state.active)
+      this.setState({ progress: p, active, activeLabel: label });
+  }
+
+  setupReveal() {
+    if (this._revealDone || !('IntersectionObserver' in window)) return;
+    this._revealDone = true;
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.style.animation = 'rise .55s cubic-bezier(.2,.7,.3,1) both'; io.unobserve(e.target); } });
+    }, { threshold: 0.04 });
+    document.querySelectorAll('[data-reveal]').forEach(el => io.observe(el));
+  }
+
+  buildBlock(b, secId, bi) {
+    const checks = this.state.checks || {};
+    const o = { isLead:false, isP:false, isH3:false, isStep:false, isList:false, isChecklist:false, isCallout:false, isNote:false, isEmail:false, isImages:false };
+    if (b.k === 'lead') { o.isLead = true; o.text = b.text; }
+    else if (b.k === 'p') { o.isP = true; o.text = b.text; }
+    else if (b.k === 'h3') { o.isH3 = true; o.text = b.text; }
+    else if (b.k === 'callout') { o.isCallout = true; o.text = b.text; }
+    else if (b.k === 'note') { o.isNote = true; o.text = b.text; }
+    else if (b.k === 'step') { o.isStep = true; o.num = b.num; o.text = b.text;
+      o.stepNumStyle = 'flex:none;width:38px;height:38px;border-radius:11px;background:#163a72;color:#fff;display:flex;align-items:center;justify-content:center;font-family:Barlow;font-weight:800;font-size:17px;box-shadow:0 6px 16px rgba(22,58,114,.28);'; }
+    else if (b.k === 'email') { o.isEmail = true; o.subjectLabel = b.subject ? ('Assunto: ' + b.subject) : 'Copie e adapte conforme o caso';
+      o.bodyLines = (b.lines || []).map((t, i) => ({ text: t, style: 'font-size:15px;line-height:1.6;color:#3a4a63;margin:' + (i===0?'0':'9px') + ' 0 0;' })); }
+    else if (b.k === 'list') {
+      if (b.checkable) {
+        o.isChecklist = true;
+        const items = (b.items || []).map((t, i) => {
+          const key = secId + '::' + bi + '::' + i;
+          const checked = !!checks[key];
+          return { text: t, checked, onToggle: () => this.toggleCheck(key), check: checked ? '✓' : '',
+            boxStyle: 'flex:none;margin-top:1px;width:21px;height:21px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:#fff;transition:all .15s ease;' + (checked ? 'background:#163a72;border:1px solid #163a72;' : 'background:#fff;border:1.5px solid #c4cee0;'),
+            textStyle: 'font-size:15.5px;line-height:1.5;transition:color .15s ease;' + (checked ? 'color:#9aa7bd;text-decoration:line-through;' : 'color:#39465e;') };
+        });
+        const done = items.filter(i => i.checked).length;
+        o.items = items; o.progressLabel = done + '/' + items.length;
+        o.barStyle = 'width:' + (items.length ? (done / items.length) * 100 : 0) + '%';
+      } else {
+        o.isList = true; o.items = (b.items || []).map(t => ({ text: t }));
+        const isDo = b.tone === 'do';
+        o.mark = isDo ? '✓' : '';
+        o.markStyle = isDo
+          ? 'color:#2f8f5b;font-weight:900;flex:none;margin-top:1px;font-size:15px;'
+          : 'width:7px;height:7px;border-radius:2px;background:#c8102e;margin-top:8px;flex:none;transform:rotate(45deg);';
+      }
+    }
+    else if (b.k === 'images') {
+      o.isImages = true;
+      o.imgs = (b.imgs || []).map(im => { const src = (window.__resources && window.__resources[im.fn]) || im.fn; return { src, onClick: () => this.openImg(src) }; });
+      const n = (b.imgs || []).length;
+      o.galleryStyle = 'display:grid;gap:14px;margin:14px 0 22px;grid-template-columns:' + (n >= 2 ? 'repeat(auto-fit,minmax(260px,1fr))' : '1fr') + ';';
+    }
+    return o;
+  }
+
+  renderVals() {
+    const st = this.state;
+    const sections = st.sections;
+    const hasData = !!sections;
+
+    let navItems = [], toc = [], viewSections = [];
+    if (hasData) {
+      const sumActive = st.active === 'sumario';
+      navItems.push({ num: '•', title: 'Sumário', onClick: () => this.goTo('sumario'),
+        itemStyle: 'display:flex;align-items:center;gap:11px;width:100%;text-align:left;border:none;cursor:pointer;padding:8px 12px;border-radius:10px;transition:all .15s ease;border-left:3px solid ' + (sumActive ? '#c8102e' : 'transparent') + ';background:' + (sumActive ? 'rgba(22,58,114,.07)' : 'transparent') + ';',
+        numStyle: 'flex:none;width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-family:Barlow;font-weight:800;font-size:12px;' + (sumActive ? 'background:#163a72;color:#fff;' : 'background:#eef1f6;color:#8494ac;'),
+        textStyle: 'font-family:Barlow;font-size:13px;line-height:1.22;font-weight:' + (sumActive ? '700' : '600') + ';color:' + (sumActive ? '#163a72' : '#5b6b82') + ';' });
+
+      for (const s of sections) {
+        const on = s.id === st.active;
+        const cc = this.catColor(s.cat);
+        navItems.push({ num: s.label, title: s.title, onClick: () => this.goTo(s.id),
+          itemStyle: 'display:flex;align-items:center;gap:11px;width:100%;text-align:left;border:none;cursor:pointer;padding:8px 12px;border-radius:10px;transition:all .15s ease;border-left:3px solid ' + (on ? '#c8102e' : 'transparent') + ';background:' + (on ? 'rgba(22,58,114,.07)' : 'transparent') + ';',
+          numStyle: 'flex:none;width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-family:Barlow;font-weight:800;font-size:11px;' + (on ? 'background:#'+cc.c+';color:#fff;' : 'background:#eef1f6;color:#8494ac;'),
+          textStyle: 'font-family:Barlow;font-size:13px;line-height:1.22;font-weight:' + (on ? '700' : '600') + ';color:' + (on ? '#163a72' : '#5b6b82') + ';' });
+
+        toc.push({ num: s.label, title: s.title, cat: s.cat, onClick: () => this.goTo(s.id),
+          numStyle: 'flex:none;width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:Barlow;font-weight:800;font-size:12px;background:#'+cc.c+';color:#fff;',
+          catStyle: 'display:block;font-family:Barlow;font-weight:700;font-size:10.5px;letter-spacing:.4px;text-transform:uppercase;color:#'+cc.c+';margin-top:3px;' });
+
+        viewSections.push({ id: s.id, label: s.label, badge: s.label, title: s.title, cat: s.cat,
+          badgeStyle: 'font-family:Barlow;font-weight:900;font-size:15px;letter-spacing:.5px;color:#fff;background:#'+cc.c+';min-width:46px;height:34px;padding:0 10px;border-radius:9px;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(22,58,114,.18);',
+          catStyle: 'font-family:Barlow;font-weight:800;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#'+cc.c+';background:#'+cc.t+';padding:5px 11px;border-radius:999px;',
+          blocks: s.blocks.map((b, bi) => this.buildBlock(b, s.id, bi)) });
+      }
+    }
+
+    return {
+      hasData,
+      progressStyle: 'width:' + st.progress + '%',
+      activeLabel: st.activeLabel,
+      activePillStyle: 'display:' + (st.isMobile ? 'none' : 'block'),
+      menuBtnStyle: 'display:' + (st.isMobile ? 'flex' : 'none'),
+      startReading: () => this.goTo('sumario'),
+      navItems, toc, sections: viewSections,
+      toggleNav: () => this.toggleNav(),
+      closeNav: () => this.closeNav(),
+      showBackdrop: st.isMobile && st.navOpen,
+      sidebarStyle: 'position:fixed;top:63px;bottom:0;left:0;width:280px;background:#fff;border-right:1px solid #e3e9f2;overflow-y:auto;padding:18px 12px 30px;z-index:41;transition:transform .28s cubic-bezier(.4,0,.2,1);' +
+        (st.isMobile ? (st.navOpen ? 'transform:translateX(0);box-shadow:0 20px 60px rgba(9,18,36,.3);' : 'transform:translateX(-102%);') : 'transform:none;'),
+      mainStyle: 'margin-left:' + (st.isMobile ? 0 : 280) + 'px;padding-top:63px;transition:margin .2s ease;',
+      lightboxOn: !!st.lightbox,
+      lightboxSrc: st.lightbox || '',
+      closeLightbox: () => this.closeLightbox()
+    };
+  }
+}
+</script>
+</body>
+</html>
